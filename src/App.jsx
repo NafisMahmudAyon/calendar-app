@@ -2,6 +2,23 @@
 import React, { useState } from "react";
 import "./App.css";
 
+import {
+	getDate,
+	getDay,
+	getMonth,
+	getWeekDay,
+	getYear,
+} from "bangla-calendar";
+
+const BanglaDate = (date, month, year) => {
+	console.log(date, month, year);
+	var monthX = month + 1;
+
+	console.log(monthX);
+
+	// return <div>BanglaDate</div>;
+};
+
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const months = [
 	"January",
@@ -99,6 +116,45 @@ function App() {
 		setIsMonthDropdownOpen(false);
 	};
 
+	function createDate(month, date, year, hours = 0, minutes = 0, seconds = 0) {
+		// Convert month name to index (0-based)
+		const monthIndex = new Date(Date.parse(`${month} 1, 2000`)).getMonth();
+
+		// Create Date object
+		const resultDate = new Date(
+			year,
+			monthIndex,
+			date,
+			hours,
+			minutes,
+			seconds
+		);
+
+		return resultDate;
+	}
+
+	const inputDateString = "2024-01-30T18:00:00.000Z";
+
+	// Convert the input date string to a Date object
+	const inputDate = new Date(inputDateString);
+
+	console.log(inputDate);
+
+	// Format the date to "Month day year hours:minutes:seconds"
+	const options = {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		timeZone: "UTC",
+	};
+
+	const formattedDate = inputDate.toLocaleDateString("en-US", options);
+
+	console.log(formattedDate);
+
 	const renderCalendar = () => {
 		const year = currentDate.getFullYear();
 		const month = currentDate.getMonth();
@@ -131,21 +187,32 @@ function App() {
 					dayOfMonth === today.getDate();
 
 				if (isOtherMonth) {
+					console.log(month);
+					var date1 = new Date(year, month - 1, dayOfMonth, 18, 0, 0);
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day other-month `}>
-							{dayOfMonth}
+						<div key={j} className={`day relative pb-6 other-month `}>
+							<div className="text-3xl ">{dayOfMonth}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				} else if (dayCounter <= totalDays) {
+					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day ${isToday ? "today" : ""}`}>
-							{dayCounter}
+						<div key={j} className={`day relative pb-6 ${isToday ? "today" : ""}`}>
+							<div className="text-3xl ">{dayCounter.length == 1 ? "0"+dayCounter : dayCounter}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				} else {
+					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
+
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day other-month `}>
-							{dayCounter - totalDays}
+						<div key={j} className={`day relative pb-6 other-month `}>
+							<div className="text-3xl ">{dayCounter - totalDays}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				}
@@ -238,7 +305,5 @@ function App() {
 }
 
 export default App;
-
-
 
 
