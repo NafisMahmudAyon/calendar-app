@@ -40,6 +40,8 @@ function App() {
 	const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
 	const [isYearDropdownOpen, setIsYearDropdownOpen] = useState(false);
 
+	// const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
 	const daysInMonth = (year, month) => {
 		return new Date(year, month + 1, 0).getDate();
 	};
@@ -165,6 +167,12 @@ function App() {
 		const calendar = [];
 		let dayCounter = 1;
 
+		const handleDateClick = (date, month, year) => {
+			var dateX = new Date(year, month, date);
+			console.log("Clicked date:", date, month, year, dateX);
+			// You can perform any other actions with the clicked date here
+		};
+
 		for (let i = 0; i < 6; i++) {
 			const week = [];
 
@@ -189,30 +197,75 @@ function App() {
 				if (isOtherMonth) {
 					console.log(month);
 					var date1 = new Date(year, month - 1, dayOfMonth, 18, 0, 0);
+					var monthX = month - 1;
+					var yearX = year;
+					if (monthX < 0) {
+						monthX = 11;
+						yearX = year - 1;
+					}
 					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
+					var BMonth = getMonth(date1, {
+						format: "MMMM",
+						calculationMethod: "BD",
+					});
 					week.push(
-						<div key={j} className={`day relative pb-6 other-month `}>
-							<div className="text-3xl ">{dayOfMonth}</div>
-							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
+						<div
+							key={j}
+							className={`day relative  other-month px-1 py-4 pt-3 `}
+							onClick={() => handleDateClick(dayOfMonth, monthX, yearX)}>
+							<div className="text-3xl w-14 ">{dayOfMonth}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">
+								{BMonth}{" "}
+								{BDate}
+							</div>
 						</div>
 					);
 				} else if (dayCounter <= totalDays) {
 					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
 					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
+					var BMonth = getMonth(date1, {
+						format: "MMMM",
+						calculationMethod: "BD",
+					});
+					var date = dayCounter;
 					week.push(
-						<div key={j} className={`day relative pb-6 ${isToday ? "today" : ""}`}>
-							<div className="text-3xl ">{dayCounter.length == 1 ? "0"+dayCounter : dayCounter}</div>
-							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
+						<div
+							key={j}
+							className={`day relative px-1 py-4 pt-3  ${
+								isToday ? "today" : ""
+							}`}
+							onClick={() => handleDateClick(date1)}>
+							<div className="text-3xl w-14 ">
+								{date >= 1 && date <= 9 ? "0" + date : date}
+							</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">
+								{BMonth}{" "}
+								{BDate}
+							</div>
 						</div>
 					);
 				} else {
 					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
 
 					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
+					var BMonth = getMonth(date1, {
+						format: "MMMM",
+						calculationMethod: "BD",
+					});
+					var date = dayCounter - totalDays;
+					console.log(date);
 					week.push(
-						<div key={j} className={`day relative pb-6 other-month `}>
-							<div className="text-3xl ">{dayCounter - totalDays}</div>
-							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
+						<div
+							key={j}
+							className={`day relative  other-month px-1 py-4 pt-3 `}
+							onClick={() => handleDateClick(date1)}>
+							<div className="text-3xl w-14 ">
+								{date >= 1 && date <= 9 ? "0" + date : date}
+							</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">
+								{BMonth}{" "}
+								{BDate}
+							</div>
 						</div>
 					);
 				}
@@ -270,40 +323,54 @@ function App() {
 	};
 
 	return (
-		<div className="calendar-container">
+		<div className="calendar-container flex w-full flex-col items-center">
 			<h1>React Calendar App</h1>
-			<div className="header">
-				<button onClick={goToPreviousMonth}>&lt; Prev</button>
-				<div>
-					<span onClick={goToPreviousMonth}>&#8592;</span>
-					<span className="month-selector" onClick={toggleMonthDropdown}>
-						{months[currentDate.getMonth()]}
-						{isMonthDropdownOpen && renderMonthDropdown()}
-					</span>
-					<span onClick={goToNextMonth}>&#8594;</span>
-				</div>
-				<div>
-					<span onClick={decrementYear}>&#8593;</span>
-					<span className="year-selector" onClick={toggleYearDropdown}>
-						{currentDate.getFullYear()}
-						{isYearDropdownOpen && renderYearDropdown()}
-					</span>
-					<span onClick={incrementYear}>&#8595;</span>
-				</div>
-				<button onClick={goToNextMonth}>Next &gt;</button>
-			</div>
-			<div className="days-of-week">
-				{daysOfWeek.map((day) => (
-					<div key={day} className="day-of-week">
-						{day}
+			<div className="w-max rounded-lg overflow-hidden">
+				<div className="header flex justify-between w-full">
+					<button onClick={goToPreviousMonth}>&lt; Prev</button>
+					<div>
+						{/* <span onClick={goToPreviousMonth}>&#8592;</span> */}
+						<span className="month-selector" onClick={toggleMonthDropdown}>
+							{months[currentDate.getMonth()]}
+							{isMonthDropdownOpen && renderMonthDropdown()}▽
+						</span>
+						{/* <span onClick={goToNextMonth}>&#8594;</span> */}
 					</div>
-				))}
+					<div>
+						{/* <span onClick={decrementYear}>&#8593;</span> */}
+						<span className="year-selector" onClick={toggleYearDropdown}>
+							{currentDate.getFullYear()}
+							{/* {currentYear} */}
+							{isYearDropdownOpen && renderYearDropdown()}
+						</span>
+						{/* <span onClick={incrementYear}>&#8595;</span> */}
+					</div>
+					<button onClick={goToNextMonth}>Next &gt;</button>
+				</div>
+
+				<div className="days-of-week w-full rounded-t-lg ">
+					{daysOfWeek.map((day) => (
+						<div
+							key={day}
+							className="day-of-week text-2xl px-1 py-4 pt-3 w-14 ">
+							{day}
+						</div>
+					))}
+				</div>
+				<div className="rounded-b-lg border-b-[#ccc] border-b overflow-hidden ">
+					{renderCalendar()}
+				</div>
 			</div>
-			{renderCalendar()}
 		</div>
 	);
 }
 
 export default App;
+
+
+
+
+
+
 
 
