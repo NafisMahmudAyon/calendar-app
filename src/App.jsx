@@ -1,11 +1,25 @@
-// App.js
 import React, { useState } from "react";
 import "./App.css";
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const months = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
 
 function App() {
 	const [currentDate, setCurrentDate] = useState(new Date());
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
 	const daysInMonth = (year, month) => {
 		return new Date(year, month + 1, 0).getDate();
@@ -47,12 +61,18 @@ function App() {
 		});
 	};
 
-	
+	const handleMonthSelection = (selectedMonth) => {
+		setCurrentDate((prevDate) => {
+			return new Date(prevDate.getFullYear(), selectedMonth, 1);
+		});
+		setIsDropdownOpen(false);
+	};
 
+	const toggleDropdown = () => {
+		setIsDropdownOpen(!isDropdownOpen);
+	};
 
-
-
-  const renderCalendar = () => {
+	const renderCalendar = () => {
 		const year = currentDate.getFullYear();
 		const month = currentDate.getMonth();
 		const totalDays = daysInMonth(year, month);
@@ -68,7 +88,7 @@ function App() {
 			for (let j = 0; j < 7; j++) {
 				const isOtherMonth =
 					(i === 0 && j < startingDay) || (i === 0 && j < startingDay);
-        
+
 				const dayOfMonth = isOtherMonth
 					? daysInMonth(
 							getPreviousMonth(year, month).year,
@@ -78,54 +98,30 @@ function App() {
 					  dayCounter
 					: dayCounter;
 
-          // console.log(dayOfMonth)
+				const isToday =
+					year === today.getFullYear() &&
+					month === today.getMonth() &&
+					dayOfMonth === today.getDate();
 
-				const isToday = year === today.getFullYear() && month === today.getMonth() &&	dayOfMonth === today.getDate();
-
-        if(isOtherMonth){
-          week.push(
-
-          <div
-						key={j}
-						className={`day other-month `}>
-						{dayOfMonth}
-					</div>
-          )
-        console.log(dayOfMonth)
-        }
-        else if (dayCounter <= totalDays) {
+				if (isOtherMonth) {
 					week.push(
-						<div
-							key={j}
-							className={`day ${isToday ? "today" : ""}`}>
+						<div key={j} className={`day other-month `}>
+							{dayOfMonth}
+						</div>
+					);
+				} else if (dayCounter <= totalDays) {
+					week.push(
+						<div key={j} className={`day ${isToday ? "today" : ""}`}>
 							{dayCounter}
 						</div>
 					);
-					console.log(dayOfMonth);
-				}
-        else {
-          week.push(
+				} else {
+					week.push(
 						<div key={j} className={`day other-month `}>
 							{dayCounter - totalDays}
 						</div>
 					);
-					console.log(dayOfMonth);
-        }
-
-
-				// week.push(
-				// 	<div
-				// 		key={j}
-				// 		className={`day ${isOtherMonth ? "other-month" : "other"} ${
-				// 			isToday ? "today" : ""
-				// 		}`}>
-				// 		{isOtherMonth
-				// 			? dayOfMonth
-				// 			: dayCounter <= totalDays
-				// 			? dayCounter
-				// 			: dayCounter - totalDays}
-				// 	</div>
-				// );
+				}
 
 				if (!isOtherMonth) {
 					dayCounter++;
@@ -142,42 +138,22 @@ function App() {
 		return calendar;
 	};
 
-
-  // const renderCalendarX = () => {
-  //   const year = currentDate.getFullYear();
-	// 	const month = currentDate.getMonth();
-	// 	const totalDays = daysInMonth(year, month);
-	// 	const startingDay = getStartingDay(year, month);
-	// 	const today = new Date();
-
-  //   // console.log(year,"-+-", month,"-+-",totalDays,"-+-",startingDay,"-+-",today )
-
-  //   // console.log((daysInMonth(2024, 0)));
-  //   // console.log(getStartingDay(2024, 8));
-  //   // var X = [];
-
-  //   for (let i = 0; i < 6; i++) {
-	// 		const X = [];
-
-	// 		for (let j = 0; j < 7; j++) {
-  //       // console.log(i,",",j)
-        
-  //     }}
-
-  // }
-
-
-
 	return (
 		<div className="calendar-container">
 			<h1>React Calendar App</h1>
 			<div className="header">
 				<button onClick={goToPreviousMonth}>&lt; Prev</button>
-				<span>
-					{currentDate.toLocaleString("en-us", {
-						month: "long",
-						year: "numeric",
-					})}
+				<span onClick={toggleDropdown} className="month-selector">
+					{months[currentDate.getMonth()]}
+					{isDropdownOpen && (
+						<div className="month-dropdown">
+							{months.map((month, index) => (
+								<div key={index} onClick={() => handleMonthSelection(index)}>
+									{month}
+								</div>
+							))}
+						</div>
+					)}
 				</span>
 				<button onClick={goToNextMonth}>Next &gt;</button>
 			</div>
@@ -189,36 +165,9 @@ function App() {
 				))}
 			</div>
 			{renderCalendar()}
-
-			{/* {renderCalendarX()} */}
 		</div>
 	);
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
