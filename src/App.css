@@ -102,7 +102,8 @@
   justify-content: space-between;
   background-color: dimgray;
   border: 1px solid white;
-  padding: 8px 0;
+  width: 100%;
+  /* padding: 8px 0; */
 }
 
 .day-of-week {
@@ -116,7 +117,7 @@
 
 .day {
   flex: 1;
-  padding: 8px;
+  /* padding: 8px; */
   border: 1px solid #ccc;
   cursor: pointer;
   transition: all 1s ease-in-out;
@@ -132,9 +133,9 @@
 }
 
 .today {
-  background-color: #3498db;
-  color: #fff;
-  border-radius: 50%;
+  /* background-color: #3498db; */
+  color: #3498db;
+  /* border-radius: 50%; */
 }
 
 .today:hover {
