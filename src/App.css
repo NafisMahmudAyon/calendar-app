@@ -1,69 +1,90 @@
 /* App.css */
 .calendar-container {
-  text-align: center;
-  max-width: 400px;
+  font-family: Arial, sans-serif;
+  max-width: 600px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 .button {
-  background-color: #007bff;
+  background-color: #3498db;
   color: #fff;
-  padding: 8px 12px;
   border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  padding: 8px 16px;
   font-size: 14px;
-  transition: background-color 0.3s;
+  cursor: pointer;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #2980b9;
 }
 
-.month {
-  font-size: 20px;
-  font-weight: bold;
+.month-selector {
+  position: relative;
+  cursor: pointer;
+}
+
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #999;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1;
+}
+
+.month-dropdown div {
+  padding: 4px;
+  cursor: pointer;
+  color: black;
+  text-align: left;
+  padding-right: 20px;
+  border-bottom: 1px solid;
+}
+
+.month-dropdown div:hover {
+  background-color: #f0f0f0;
+  color: black;
 }
 
 .days-of-week {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  background-color: dimgray;
+  border: 1px solid white;
+  padding: 8px 0;
 }
 
 .day-of-week {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
+  flex: 1;
+  padding: 8px;
 }
 
 .week {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 8px;
 }
 
 .day {
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 1s ease-in-out;
+}
+
+.day:hover {
+  background-color: #f0f0f0;
+  color: black;
 }
 
 .other-month {
@@ -71,10 +92,11 @@
 }
 
 .today {
-  background-color: #007bff;
+  background-color: #3498db;
   color: #fff;
+  border-radius: 50%;
 }
 
-.day:hover {
-  background-color: #f0f0f0;
+.today:hover {
+  background-color: #2980b9;
 }
