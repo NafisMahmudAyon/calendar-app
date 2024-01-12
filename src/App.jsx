@@ -1,5 +1,23 @@
+// App.js
 import React, { useState } from "react";
 import "./App.css";
+
+import {
+	getDate,
+	getDay,
+	getMonth,
+	getWeekDay,
+	getYear,
+} from "bangla-calendar";
+
+const BanglaDate = (date, month, year) => {
+	console.log(date, month, year);
+	var monthX = month + 1;
+
+	console.log(monthX);
+
+	// return <div>BanglaDate</div>;
+};
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const months = [
@@ -19,7 +37,8 @@ const months = [
 
 function App() {
 	const [currentDate, setCurrentDate] = useState(new Date());
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [isMonthDropdownOpen, setIsMonthDropdownOpen] = useState(false);
+	const [isYearDropdownOpen, setIsYearDropdownOpen] = useState(false);
 
 	const daysInMonth = (year, month) => {
 		return new Date(year, month + 1, 0).getDate();
@@ -61,16 +80,80 @@ function App() {
 		});
 	};
 
+	const decrementYear = () => {
+		setCurrentDate(
+			(prevDate) => new Date(prevDate.getFullYear() - 1, prevDate.getMonth(), 1)
+		);
+	};
+
+	const incrementYear = () => {
+		setCurrentDate(
+			(prevDate) => new Date(prevDate.getFullYear() + 1, prevDate.getMonth(), 1)
+		);
+	};
+
 	const handleMonthSelection = (selectedMonth) => {
 		setCurrentDate((prevDate) => {
 			return new Date(prevDate.getFullYear(), selectedMonth, 1);
 		});
-		setIsDropdownOpen(false);
+		setIsMonthDropdownOpen(false);
 	};
 
-	const toggleDropdown = () => {
-		setIsDropdownOpen(!isDropdownOpen);
+	const toggleMonthDropdown = () => {
+		setIsMonthDropdownOpen(!isMonthDropdownOpen);
+		setIsYearDropdownOpen(false);
 	};
+
+	const handleYearSelection = (selectedYear) => {
+		setCurrentDate((prevDate) => {
+			return new Date(selectedYear, prevDate.getMonth(), 1);
+		});
+		setIsYearDropdownOpen(false);
+	};
+
+	const toggleYearDropdown = () => {
+		setIsYearDropdownOpen(!isYearDropdownOpen);
+		setIsMonthDropdownOpen(false);
+	};
+
+	function createDate(month, date, year, hours = 0, minutes = 0, seconds = 0) {
+		// Convert month name to index (0-based)
+		const monthIndex = new Date(Date.parse(`${month} 1, 2000`)).getMonth();
+
+		// Create Date object
+		const resultDate = new Date(
+			year,
+			monthIndex,
+			date,
+			hours,
+			minutes,
+			seconds
+		);
+
+		return resultDate;
+	}
+
+	const inputDateString = "2024-01-30T18:00:00.000Z";
+
+	// Convert the input date string to a Date object
+	const inputDate = new Date(inputDateString);
+
+	console.log(inputDate);
+
+	// Format the date to "Month day year hours:minutes:seconds"
+	const options = {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+		second: "2-digit",
+		timeZone: "UTC",
+	};
+
+	const formattedDate = inputDate.toLocaleDateString("en-US", options);
+
+	console.log(formattedDate);
 
 	const renderCalendar = () => {
 		const year = currentDate.getFullYear();
@@ -104,21 +187,32 @@ function App() {
 					dayOfMonth === today.getDate();
 
 				if (isOtherMonth) {
+					console.log(month);
+					var date1 = new Date(year, month - 1, dayOfMonth, 18, 0, 0);
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day other-month `}>
-							{dayOfMonth}
+						<div key={j} className={`day relative pb-6 other-month `}>
+							<div className="text-3xl ">{dayOfMonth}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				} else if (dayCounter <= totalDays) {
+					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day ${isToday ? "today" : ""}`}>
-							{dayCounter}
+						<div key={j} className={`day relative pb-6 ${isToday ? "today" : ""}`}>
+							<div className="text-3xl ">{dayCounter.length == 1 ? "0"+dayCounter : dayCounter}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				} else {
+					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
+
+					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					week.push(
-						<div key={j} className={`day other-month `}>
-							{dayCounter - totalDays}
+						<div key={j} className={`day relative pb-6 other-month `}>
+							<div className="text-3xl ">{dayCounter - totalDays}</div>
+							<div className="absolute bottom-0 right-2 text-[12px] ">{BDate}</div>
 						</div>
 					);
 				}
@@ -138,23 +232,64 @@ function App() {
 		return calendar;
 	};
 
+	const renderMonthDropdown = () => {
+		return (
+			<div className="month-dropdown">
+				{/* <span onClick={goToPreviousMonth}>&#8592;</span> Left arrow */}
+				{months.map((month, index) => (
+					<div key={month} onClick={() => handleMonthSelection(index)}>
+						{month}
+					</div>
+				))}
+				{/* <span onClick={goToNextMonth}>&#8594;</span> Right arrow */}
+			</div>
+		);
+	};
+
+	const renderYearDropdown = () => {
+		const currentYear = currentDate.getFullYear();
+		const startYear = currentYear - 30;
+		const endYear = currentYear + 50;
+
+		const years = Array.from(
+			{ length: endYear - startYear + 1 },
+			(_, index) => startYear + index
+		);
+
+		return (
+			<div className="year-dropdown">
+				{/* <span onClick={decrementYear}>&#8593;</span> Up arrow */}
+				{years.map((year) => (
+					<div key={year} onClick={() => handleYearSelection(year)}>
+						{year}
+					</div>
+				))}
+				{/* <span onClick={incrementYear}>&#8595;</span> Down arrow */}
+			</div>
+		);
+	};
+
 	return (
 		<div className="calendar-container">
 			<h1>React Calendar App</h1>
 			<div className="header">
 				<button onClick={goToPreviousMonth}>&lt; Prev</button>
-				<span onClick={toggleDropdown} className="month-selector">
-					{months[currentDate.getMonth()]}
-					{isDropdownOpen && (
-						<div className="month-dropdown">
-							{months.map((month, index) => (
-								<div key={index} onClick={() => handleMonthSelection(index)}>
-									{month}
-								</div>
-							))}
-						</div>
-					)}
-				</span>
+				<div>
+					<span onClick={goToPreviousMonth}>&#8592;</span>
+					<span className="month-selector" onClick={toggleMonthDropdown}>
+						{months[currentDate.getMonth()]}
+						{isMonthDropdownOpen && renderMonthDropdown()}
+					</span>
+					<span onClick={goToNextMonth}>&#8594;</span>
+				</div>
+				<div>
+					<span onClick={decrementYear}>&#8593;</span>
+					<span className="year-selector" onClick={toggleYearDropdown}>
+						{currentDate.getFullYear()}
+						{isYearDropdownOpen && renderYearDropdown()}
+					</span>
+					<span onClick={incrementYear}>&#8595;</span>
+				</div>
 				<button onClick={goToNextMonth}>Next &gt;</button>
 			</div>
 			<div className="days-of-week">
@@ -170,4 +305,5 @@ function App() {
 }
 
 export default App;
+
 

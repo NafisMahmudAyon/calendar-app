@@ -57,6 +57,46 @@
   color: black;
 }
 
+.year-selector {
+  position: relative;
+  cursor: pointer;
+}
+
+.year-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #999;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1;
+  max-height: 150px; /* Set a maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.year-dropdown div {
+  padding: 4px;
+  color: black;
+  text-align: left;
+  padding-right: 20px;
+  border-bottom: 1px solid;
+  cursor: pointer;
+}
+
+.year-dropdown div:hover {
+  background-color: #f0f0f0;
+}
+
+.month-dropdown span,
+.year-dropdown span {
+  display: block;
+  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
 .days-of-week {
   display: flex;
   justify-content: space-between;
