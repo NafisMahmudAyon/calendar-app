@@ -211,12 +211,11 @@ function App() {
 					week.push(
 						<div
 							key={j}
-							className={`day relative  other-month px-1 py-4 pt-3 `}
+							className={`day relative shadow-[5px_5px_1px_#999] hover:shadow-[1px_1px_1px_#999] hover:bg-[#999]  other-month px-1 py-4 pt-3 `}
 							onClick={() => handleDateClick(dayOfMonth, monthX, yearX)}>
-							<div className="text-3xl w-14 ">{dayOfMonth}</div>
+							<div className="text-2xl w-14 ">{dayOfMonth}</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth}{" "}
-								{BDate}
+								{BMonth} {BDate}
 							</div>
 						</div>
 					);
@@ -231,16 +230,15 @@ function App() {
 					week.push(
 						<div
 							key={j}
-							className={`day relative px-1 py-4 pt-3  ${
+							className={`day relative shadow-[5px_5px_1px_#ddd] hover:shadow-[1px_1px_1px_#ddd] hover:bg-[#ddd] border-[#ddd] px-1 py-4 pt-3  ${
 								isToday ? "today" : ""
 							}`}
 							onClick={() => handleDateClick(date1)}>
-							<div className="text-3xl w-14 ">
+							<div className="text-2xl w-14 ">
 								{date >= 1 && date <= 9 ? "0" + date : date}
 							</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth}{" "}
-								{BDate}
+								{BMonth} {BDate}
 							</div>
 						</div>
 					);
@@ -257,14 +255,13 @@ function App() {
 					week.push(
 						<div
 							key={j}
-							className={`day relative  other-month px-1 py-4 pt-3 `}
+							className={`day relative  shadow-[5px_5px_1px_#999] hover:shadow-[1px_1px_1px_#999] hover:bg-[#999] border-[#999] other-month px-1 py-4 pt-3 `}
 							onClick={() => handleDateClick(date1)}>
-							<div className="text-3xl w-14 ">
+							<div className="text-2xl w-14 ">
 								{date >= 1 && date <= 9 ? "0" + date : date}
 							</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth}{" "}
-								{BDate}
+								{BMonth} {BDate}
 							</div>
 						</div>
 					);
@@ -357,7 +354,7 @@ function App() {
 						</div>
 					))}
 				</div>
-				<div className="rounded-b-lg border-b-[#ccc] border-b overflow-hidden ">
+				<div className="rounded-b-lg  overflow-hidden ">
 					{renderCalendar()}
 				</div>
 			</div>
@@ -366,6 +363,10 @@ function App() {
 }
 
 export default App;
+
+
+
+
 
 
 
