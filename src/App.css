@@ -103,6 +103,7 @@
   background-color: dimgray;
   border: 1px solid white;
   width: 100%;
+  margin-bottom: 10px;
   /* padding: 8px 0; */
 }
 
@@ -113,19 +114,29 @@
 
 .week {
   display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px;
 }
 
 .day {
   flex: 1;
   /* padding: 8px; */
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   cursor: pointer;
   transition: all 1s ease-in-out;
+}
+
+.day {
+  border-radius: 10px;
+  box-shadow: 5px 5px 1px #ddd;
+  transition: box-shadow 300ms ease-in-out;
 }
 
 .day:hover {
   background-color: #f0f0f0;
   color: black;
+  /* box-shadow: 1px 1px 1px #ddd; */
 }
 
 .other-month {
