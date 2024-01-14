@@ -3,72 +3,252 @@
 @tailwind utilities;
 
 
+/* @font-face {
+    font-family: "BanglaFont";
+    src: url("./Li SK Bishal Unicode.ttf");
+} */
+
+
+/* App.css */
+
+@font-face {
+    font-family: "BanglaFont";
+    src: url("/Li SK Bishal Unicode.ttf");
+}
+@font-face {
+    font-family: "BanglaFont2";
+    src: url("/Li Padmasetu Unicode.ttf");
+}
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  --friday: #e74c3c;
+  --saturday: #e67e22;
+  --sunday: #999;
+  --monday: #999;
+  --tuesday: #999;
+  --wednesday: #999;
+  --thursday: #999;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  --fridayOff: #c0392b;
+  --saturdayOff: #d35400;
+  --sundayOff: #999;
+  --mondayOff: #999;
+  --tuesdayOff: #999;
+  --wednesdayOff: #999;
+  --thursdayOff: #999;
+
+
+  --today: #ffd32a;
+
+  --holyday: #2ecc71;
+  --holydayOff: #27ae60;
+
+  /* font-family: "BanglaFont"; */
+
   background-color: #242424;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+.calendar-container {
+  /* font-family: Arial, sans-serif; */
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-/* body {
-  margin: 0;
+.header {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
-/* h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-} */
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
 }
-/* button:hover {
-  border-color: #646cff;
-} */
-/* button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.button {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
+
+.month-selector {
+  position: relative;
+  cursor: pointer;
+}
+
+.month-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #999;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1;
+}
+
+.month-dropdown div {
+  padding: 4px;
+  cursor: pointer;
+  color: black;
+  text-align: left;
+  padding-right: 20px;
+  border-bottom: 1px solid;
+}
+
+.month-dropdown div:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.year-selector {
+  position: relative;
+  cursor: pointer;
+}
+
+.year-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #999;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  z-index: 1;
+  max-height: 150px; /* Set a maximum height for the dropdown */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.year-dropdown div {
+  padding: 4px;
+  color: black;
+  text-align: left;
+  padding-right: 20px;
+  border-bottom: 1px solid;
+  cursor: pointer;
+}
+
+.year-dropdown div:hover {
+  background-color: #f0f0f0;
+}
+
+.month-dropdown span,
+.year-dropdown span {
+  display: block;
+  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.days-of-week {
+  display: flex;
+  justify-content: space-between;
+  background-color: dimgray;
+  border: 1px solid white;
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: "BanglaFont";
+  /* padding: 8px 0; */
+}
+
+.day-of-week {
+  flex: 1;
+  padding: 8px;
+}
+
+.week {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px;
+}
+
+.day {
+  flex: 1;
+  /* padding: 8px; */
+  /* border: 1px solid #ccc; */
+  cursor: pointer;
+  transition: all 1s ease-in-out;
+  /* font-family: "BanglaFont2"; */
+}
+
+.day {
+  border-radius: 10px;
+  box-shadow: 5px 5px 1px #ddd;
+  transition: box-shadow 300ms ease-in-out;
+}
+
+.day:hover {
+  background-color: #f0f0f0;
+  color: black;
+  /* box-shadow: 1px 1px 1px #ddd; */
+}
+
+.other-month {
+  color: #999;
+}
+
+
+
+.today:hover {
+  background-color: var(--today);
+  box-shadow: 1px 1px 1px var(--today);
+}
+
+.sunday {}
+.monday {}
+.tuesday {}
+.wednesday {}
+.thursday {}
+.friday {
+  /* border: 1px solid var(--friday); */
+  box-shadow: 5px 5px 1px var(--friday);
+}
+.friday:hover {
+  background-color: var(--friday);
+  /* border: 1px solid var(--friday); */
+  color: #ddd;
+  box-shadow: 1px 1px 1px var(--friday);
+}
+.friday-off {
+  /* border: 1px solid var(--friday); */
+  box-shadow: 5px 5px 1px var(--fridayOff);
+}
+.friday-off:hover {
+  background-color: var(--fridayOff);
+  /* border: 1px solid var(--friday); */
+  color: #ddd;
+  box-shadow: 1px 1px 1px var(--fridayOff);
+}
+.saturday {
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 5px 5px 1px var(--saturday);
+}
+.saturday:hover {
+  background-color: var(--saturday);
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 1px 1px 1px var(--saturday);
+}
+.saturday-off {
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 5px 5px 1px var(--saturdayOff);
+}
+.saturday-off:hover {
+  background-color: var(--saturdayOff);
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 1px 1px 1px var(--saturdayOff);
+}
+
+.today {
+  /* background-color: #3498db; */
+  color: var(--today) ;
+  box-shadow: 5px 5px 1px var(--today);
+  /* border-radius: 50%; */
 }

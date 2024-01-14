@@ -19,21 +19,36 @@ const BanglaDate = (date, month, year) => {
 	// return <div>BanglaDate</div>;
 };
 
-const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const daysOfWeek = ["রবি", "সোম", "মঙ্গল", "বুধ", "বৃহঃ", "শুক্র", "শনি"];
+// const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const months = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
+	"জানুয়ারি",
+	"ফেব্রুয়ারি",
+	"মার্চ",
+	"এপ্রিল",
+	"মে",
+	"জুন",
+	"জুলাই",
+	"আগস্ট",
+	"সেপ্টেম্বর",
+	"অক্টোবর",
+	"নভেম্বর",
+	"ডিসেম্বর",
 ];
+// const months = [
+// 	"January",
+// 	"February",
+// 	"March",
+// 	"April",
+// 	"May",
+// 	"June",
+// 	"July",
+// 	"August",
+// 	"September",
+// 	"October",
+// 	"November",
+// 	"December",
+// ];
 
 function App() {
 	const [currentDate, setCurrentDate] = useState(new Date());
@@ -193,6 +208,13 @@ function App() {
 					year === today.getFullYear() &&
 					month === today.getMonth() &&
 					dayOfMonth === today.getDate();
+				const isFriday = j === 5;
+				const isSaturday = j === 6;
+				const isSunday = j === 0;
+				const isMonday = j === 1;
+				const isTuesday = j === 2;
+				const isWednesday = j === 3;
+				const isThursday = j === 4;
 
 				if (isOtherMonth) {
 					console.log(month);
@@ -208,14 +230,17 @@ function App() {
 						format: "MMMM",
 						calculationMethod: "BD",
 					});
+					console.log(date1, monthX, yearX, month, year, dayOfMonth);
 					week.push(
 						<div
 							key={j}
-							className={`day relative shadow-[5px_5px_1px_#999] hover:shadow-[1px_1px_1px_#999] hover:bg-[#999]  other-month px-1 py-4 pt-3 `}
-							onClick={() => handleDateClick(dayOfMonth, monthX, yearX)}>
+							className={`day relative shadow-[5px_5px_1px_#999] hover:shadow-[1px_1px_1px_#999] hover:bg-[#999]  other-month px-1 py-4 pt-3 ${isFriday ? "friday" : ""} ${isSaturday ? "saturday" : ""} ${isSunday ? "sunday" : ""} ${isMonday ? "monday" : ""}  ${isTuesday ? "tuesday" : ""}  ${isWednesday ? "wednesday" : ""} ${isThursday ? "thursday" : ""} `}
+							onClick={() => handleDateClick(dayOfMonth, monthX, yearX)}
+							title={`${dayOfMonth}-${months[monthX]}-${yearX}`}
+							>
 							<div className="text-2xl w-14 ">{dayOfMonth}</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth} {BDate}
+								<span className="text-[8px]">{BMonth}</span> {BDate}
 							</div>
 						</div>
 					);
@@ -230,21 +255,33 @@ function App() {
 					week.push(
 						<div
 							key={j}
-							className={`day relative shadow-[5px_5px_1px_#ddd] hover:shadow-[1px_1px_1px_#ddd] hover:bg-[#ddd] border-[#ddd] px-1 py-4 pt-3  ${
-								isToday ? "today" : ""
-							}`}
-							onClick={() => handleDateClick(date1)}>
+							className={`day relative   px-1 py-4 pt-3 ${isToday ? "today" : ""}   ${
+								isFriday ? "friday" : ""
+							} ${isSaturday ? "saturday" : ""} ${isSunday ? "sunday" : ""} ${
+								isMonday ? "monday" : ""
+							}  ${isTuesday ? "tuesday" : ""}  ${
+								isWednesday ? "wednesday" : ""
+							} ${isThursday ? "thursday" : ""} `}
+							onClick={() => handleDateClick(date1)}
+							title={`${date}-${months[month]}-${year}`}>
 							<div className="text-2xl w-14 ">
 								{date >= 1 && date <= 9 ? "0" + date : date}
 							</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth} {BDate}
+								<span className="text-[8px]">{BMonth}</span> {BDate}
 							</div>
 						</div>
 					);
 				} else {
+					console.log(month)
 					var date1 = new Date(year, month, dayCounter, 18, 0, 0);
-
+					var monthX = month + 1;
+					var yearX = year;
+					if (monthX > 11) {
+						monthX = 0;
+						yearX = year + 1;
+					}
+					console.log(monthX, yearX)
 					var BDate = getDay(date1, { format: "DD", calculationMethod: "BD" });
 					var BMonth = getMonth(date1, {
 						format: "MMMM",
@@ -255,13 +292,22 @@ function App() {
 					week.push(
 						<div
 							key={j}
-							className={`day relative  shadow-[5px_5px_1px_#999] hover:shadow-[1px_1px_1px_#999] hover:bg-[#999] border-[#999] other-month px-1 py-4 pt-3 `}
-							onClick={() => handleDateClick(date1)}>
+							className={`day relative    border-[#999] other-month px-1 py-4 pt-3 	${
+								isFriday ? "friday-off" : ""
+							} ${isSaturday ? "saturday-off" : ""}	${
+								isSunday ? "sunday-off" : ""
+							}	${isMonday ? "monday-off" : ""}	${
+								isTuesday ? "tuesday-off" : ""
+							}	${isWednesday ? "wednesday-off" : ""}	${
+								isThursday ? "thursday-off" : ""
+							}  `}
+							onClick={() => handleDateClick(date1)}
+							title={`${date}-${months[monthX]}-${yearX}`}>
 							<div className="text-2xl w-14 ">
 								{date >= 1 && date <= 9 ? "0" + date : date}
 							</div>
 							<div className="absolute bottom-0 right-2 text-[12px] ">
-								{BMonth} {BDate}
+								<span className="text-[8px]">{BMonth}</span> {BDate}
 							</div>
 						</div>
 					);
@@ -322,7 +368,7 @@ function App() {
 	return (
 		<div className="calendar-container flex w-full flex-col items-center">
 			<h1>React Calendar App</h1>
-			<div className="w-max rounded-lg overflow-hidden">
+			<div className="w-max rounded-lg ">
 				<div className="header flex justify-between w-full">
 					<button onClick={goToPreviousMonth}>&lt; Prev</button>
 					<div>
@@ -345,7 +391,7 @@ function App() {
 					<button onClick={goToNextMonth}>Next &gt;</button>
 				</div>
 
-				<div className="days-of-week w-full rounded-t-lg ">
+				<div className="days-of-week w-full rounded-lg shadow-[5px_5px_1px_#ddd] ">
 					{daysOfWeek.map((day) => (
 						<div
 							key={day}
@@ -354,15 +400,36 @@ function App() {
 						</div>
 					))}
 				</div>
-				<div className="rounded-b-lg  overflow-hidden ">
-					{renderCalendar()}
-				</div>
+				<div className="rounded-b-lg  overflow-hidden ">{renderCalendar()}</div>
+				<span className="flex gap-2 justify-center items-center ">
+					<span className="flex gap-1 items-center text-[var(--today)] "><span className="h-4 w-4 inline-block bg-[var(--today)] rounded-full "></span>today</span>
+					<span className="flex gap-1 items-center text-[var(--friday)] "><span className="h-4 w-4 inline-block bg-[var(--friday)] rounded-full "></span>today</span>
+					<span className="flex gap-1 items-center text-[var(--saturday)] "><span className="h-4 w-4 inline-block bg-[var(--saturday)] rounded-full "></span>today</span>
+				</span>
 			</div>
 		</div>
 	);
 }
 
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

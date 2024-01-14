@@ -1,6 +1,43 @@
 /* App.css */
+
+@font-face {
+    font-family: "BanglaFont";
+    src: url("/Li SK Bishal Unicode.ttf");
+}
+@font-face {
+    font-family: "BanglaFont2";
+    src: url("/Li Padmasetu Unicode.ttf");
+}
+
+:root {
+  --friday: #e74c3c;
+  --saturday: #e67e22;
+  --sunday: #999;
+  --monday: #999;
+  --tuesday: #999;
+  --wednesday: #999;
+  --thursday: #999;
+
+  --fridayOff: #c0392b;
+  --saturdayOff: #d35400;
+  --sundayOff: #999;
+  --mondayOff: #999;
+  --tuesdayOff: #999;
+  --wednesdayOff: #999;
+  --thursdayOff: #999;
+
+
+  --today: #ffd32a;
+
+  --holyday: #2ecc71;
+  --holydayOff: #27ae60;
+
+  /* font-family: "BanglaFont"; */
+
+}
+
 .calendar-container {
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
@@ -104,6 +141,7 @@
   border: 1px solid white;
   width: 100%;
   margin-bottom: 10px;
+  font-family: "BanglaFont";
   /* padding: 8px 0; */
 }
 
@@ -125,6 +163,7 @@
   /* border: 1px solid #ccc; */
   cursor: pointer;
   transition: all 1s ease-in-out;
+  /* font-family: "BanglaFont2"; */
 }
 
 .day {
@@ -143,12 +182,60 @@
   color: #999;
 }
 
-.today {
-  /* background-color: #3498db; */
-  color: #3498db;
-  /* border-radius: 50%; */
-}
+
 
 .today:hover {
-  background-color: #2980b9;
+  background-color: var(--today);
+  box-shadow: 1px 1px 1px var(--today);
+}
+
+.sunday {}
+.monday {}
+.tuesday {}
+.wednesday {}
+.thursday {}
+.friday {
+  /* border: 1px solid var(--friday); */
+  box-shadow: 5px 5px 1px var(--friday);
+}
+.friday:hover {
+  background-color: var(--friday);
+  /* border: 1px solid var(--friday); */
+  color: #ddd;
+  box-shadow: 1px 1px 1px var(--friday);
+}
+.friday-off {
+  /* border: 1px solid var(--friday); */
+  box-shadow: 5px 5px 1px var(--fridayOff);
+}
+.friday-off:hover {
+  background-color: var(--fridayOff);
+  /* border: 1px solid var(--friday); */
+  color: #ddd;
+  box-shadow: 1px 1px 1px var(--fridayOff);
+}
+.saturday {
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 5px 5px 1px var(--saturday);
+}
+.saturday:hover {
+  background-color: var(--saturday);
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 1px 1px 1px var(--saturday);
+}
+.saturday-off {
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 5px 5px 1px var(--saturdayOff);
+}
+.saturday-off:hover {
+  background-color: var(--saturdayOff);
+  /* border: 1px solid var(--saturday); */
+  box-shadow: 1px 1px 1px var(--saturdayOff);
+}
+
+.today {
+  /* background-color: #3498db; */
+  color: var(--today) ;
+  box-shadow: 5px 5px 1px var(--today);
+  /* border-radius: 50%; */
 }
